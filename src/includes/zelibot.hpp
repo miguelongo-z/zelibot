@@ -18,9 +18,11 @@ private:
   bool is_allowed_user(const uint64_t chat_id) const;
 
   std::unordered_map<std::string, std::function<void()>>
-      command_events_handlers = {{"list", [this]() { list_events(); }}};
+      command_events_handlers = {{"list", [this]() { list_events(); }},
+                                 {"add", [this]() { add_event(); }}};
 
   void list_events();
+  void add_event();
   void initCommands();
 
 public:

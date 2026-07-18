@@ -64,6 +64,11 @@ void ZeliBot::list_events() {
   }
 }
 
+void ZeliBot::add_event() {
+
+  db_manager.create_event("Hello from Telegram!", "18-07-2026");
+}
+
 void ZeliBot::run() {
   try {
     printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());

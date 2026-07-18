@@ -12,6 +12,7 @@ private:
 public:
   DBManager(const std::string &db_name);
   std::vector<Event> get_events();
+  void create_event(const std::string &value, const std::string &date);
   bool has_pending_events() const;
   ~DBManager() = default;
 };
