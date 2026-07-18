@@ -11,7 +11,7 @@ ZeliBot::ZeliBot(const std::string &token, const uint64_t allowed_user)
 void ZeliBot::initCommands() {
 
   bot.getEvents().onCommand("test", [this](TgBot::Message::Ptr message) {
-    if (is_allowed_user(message->chat->id)) {
+    if (!is_allowed_user(message->chat->id)) {
       bot.getApi().sendMessage(message->chat->id,
                                "[ERROR] You are not allowed for use this bot.");
       return;
@@ -21,7 +21,7 @@ void ZeliBot::initCommands() {
   });
 
   bot.getEvents().onAnyMessage([&](TgBot::Message::Ptr message) {
-    if (is_allowed_user(message->chat->id)) {
+    if (!is_allowed_user(message->chat->id)) {
       bot.getApi().sendMessage(message->chat->id,
                                "[ERROR] You are not allowed for use this bot.");
       return;
