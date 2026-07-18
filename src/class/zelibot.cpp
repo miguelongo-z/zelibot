@@ -23,6 +23,22 @@ void ZeliBot::initCommands() {
     test_text_state = true;
   });
 
+  bot.getEvents().onCommand("events", [this](TgBot::Message::Ptr message) {
+    if (!is_allowed_user(message->chat->id)) {
+      bot.getApi().sendMessage(message->chat->id,
+                               "[ERROR] You are not allowed for use this bot.");
+      return;
+    }
+
+    auto events = db_manager.get_events();
+
+    for (auto event : events) {
+      bot.getApi().sendMessage(message->chat->id,
+                               "[" + std::to_string(event.id) + "] " +
+                                   event.value + "Fecha: " + event.date);
+    }
+  });
+
   bot.getEvents().onAnyMessage([&](TgBot::Message::Ptr message) {
     if (!is_allowed_user(message->chat->id)) {
       bot.getApi().sendMessage(message->chat->id,
