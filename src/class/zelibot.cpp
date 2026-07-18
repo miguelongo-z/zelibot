@@ -33,9 +33,9 @@ void ZeliBot::initCommands() {
     auto events = db_manager.get_events();
 
     for (auto event : events) {
-      bot.getApi().sendMessage(message->chat->id,
-                               "[" + std::to_string(event.id) + "] " +
-                                   event.value + "Fecha: " + event.date);
+      bot.getApi().sendMessage(message->chat->id, "[" + event.id + "] " +
+                                                      event.value +
+                                                      "Fecha: " + event.date);
     }
   });
 

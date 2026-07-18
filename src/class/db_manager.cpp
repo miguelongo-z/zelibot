@@ -40,14 +40,19 @@ void DBManager::init() {
 
 bool DBManager::has_pending_events() const {
   SQLite::Statement query(db, "SELECT * FROM events");
-  return query.hasRow();
+  return query.executeStep();
 }
 
 std::vector<Event> DBManager::get_events() {
   std::vector<Event> events;
   SQLite::Statement query(db, "SELECT * FROM events");
   while (query.executeStep()) {
-    Event event = {query.getColumn(0), query.getColumn(1), query.getColumn(2)};
+    Event event;
+
+    event.id = query.getColumn(0).getString();
+    event.value = query.getColumn(1).getString();
+    event.date = query.getColumn(2).getString();
+
     events.push_back(event);
   }
   return events;
