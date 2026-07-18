@@ -56,6 +56,10 @@ void ZeliBot::initCommands() {
 
 void ZeliBot::list_events() {
 
+  if (!db_manager.has_pending_events()) {
+    bot.getApi().sendMessage(allowed_user, "No hay eventos programados :(");
+    return;
+  }
   auto events = db_manager.get_events();
 
   for (auto event : events) {
@@ -67,6 +71,7 @@ void ZeliBot::list_events() {
 void ZeliBot::add_event() {
 
   db_manager.create_event("Hello from Telegram!", "18-07-2026");
+  bot.getApi().sendMessage(allowed_user, "Evento agregado :)");
 }
 
 void ZeliBot::run() {
