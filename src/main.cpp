@@ -10,7 +10,7 @@ int main() {
   try {
     std::string token(getenv("TOKEN"));
     printf("[ZeliBOT] Token: %s\n", token.c_str());
-    int allowed_user = std::stoi(getenv("ALLOWED_USER"));
+    int64_t allowed_user = std::stoll(getenv("ALLOWED_USER"));
     ZeliBot zelibot(token, allowed_user);
     zelibot.run();
   } catch (std::exception &e) {
