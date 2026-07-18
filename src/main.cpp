@@ -1,4 +1,5 @@
 #include "includes/zelibot.hpp"
+#include <SQLiteCpp/SQLiteCpp.h>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>

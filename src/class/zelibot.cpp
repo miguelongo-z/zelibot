@@ -1,10 +1,13 @@
 #include "../includes/zelibot.hpp"
+#include "../includes/defs.hpp"
 #include "tgbot/tgbot.h"
 #include <cstdint>
 #include <exception>
 #include <string>
+
 ZeliBot::ZeliBot(const std::string &token, const uint64_t allowed_user)
-    : bot(token), long_poll(bot), allowed_user(allowed_user) {
+    : bot(token), long_poll(bot), db_manager(DB_NAME),
+      allowed_user(allowed_user) {
   initCommands();
 };
 
