@@ -23,22 +23,6 @@ void ZeliBot::initCommands() {
     test_text_state = true;
   });
 
-  bot.getEvents().onCommand("events", [this](TgBot::Message::Ptr message) {
-    if (!is_allowed_user(message->chat->id)) {
-      bot.getApi().sendMessage(message->chat->id,
-                               "[ERROR] You are not allowed for use this bot.");
-      return;
-    }
-
-    auto events = db_manager.get_events();
-
-    for (auto event : events) {
-      bot.getApi().sendMessage(message->chat->id, "[" + event.id + "] " +
-                                                      event.value +
-                                                      "Fecha: " + event.date);
-    }
-  });
-
   bot.getEvents().onAnyMessage([&](TgBot::Message::Ptr message) {
     if (!is_allowed_user(message->chat->id)) {
       bot.getApi().sendMessage(message->chat->id,
@@ -52,13 +36,33 @@ void ZeliBot::initCommands() {
     }
 
     for (const auto &command : bot_commands) {
-      if ("/" + command == message->text) {
-        return;
+      std::stringstream ss(message->text);
+      std::string input_command;
+      ss >> input_command;
+      if ("/" + command == input_command) {
+        std::string arg;
+        ss >> arg;
+        auto it = command_events_handlers.find(arg);
+        if (it != command_events_handlers.end()) {
+          it->second();
+          return;
+        }
       }
+      return;
     }
 
     bot.getApi().sendMessage(message->chat->id, "[ERROR] unknown command");
   });
+}
+
+void ZeliBot::list_events() {
+
+  auto events = db_manager.get_events();
+
+  for (auto event : events) {
+    bot.getApi().sendMessage(allowed_user, "[" + event.id + "] " + event.value +
+                                               "Fecha: " + event.date);
+  }
 }
 
 void ZeliBot::run() {
