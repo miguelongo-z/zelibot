@@ -48,7 +48,6 @@ void ZeliBot::initCommands() {
           return;
         }
       }
-      return;
     }
 
     bot.getApi().sendMessage(message->chat->id, "[ERROR] unknown command");
@@ -71,7 +70,6 @@ void ZeliBot::run() {
     bot.getApi().deleteWebhook();
 
     while (true) {
-      printf("Long poll started\n");
       long_poll.start();
     }
   } catch (std::exception &e) {
