@@ -17,7 +17,8 @@ void DBManager::init() {
 
   try {
 
-    std::cout << "[DBManager] SQLite database file" << " opened successfully\n";
+    std::cout << "[DBManager] SQLite database file"
+              << " opened successfully\n";
 
     db.exec("CREATE TABLE IF NOT EXISTS events ("
             "id INTEGER PRIMARY KEY, "

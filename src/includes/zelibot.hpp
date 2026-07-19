@@ -3,10 +3,10 @@
 #include "db_manager.hpp"
 #include <cstdint>
 #include <functional>
+#include <string>
 #include <tgbot/tgbot.h>
 #include <unordered_map>
 #include <vector>
-
 class ZeliBot {
 private:
   TgBot::Bot bot;

@@ -42,13 +42,14 @@ void ZeliBot::initCommands() {
     for (const auto &command : bot_commands) {
       std::stringstream ss(message->text);
       std::string input_command;
-      std::vector<std::string> args;
       ss >> input_command;
       if ("/" + command == input_command) {
+
         std::string arg;
         ss >> arg;
         auto it = command_events_handlers.find(arg);
         if (it != command_events_handlers.end()) {
+          std::vector<std::string> args;
           while (ss >> arg) {
             args.push_back(arg);
           }
@@ -70,7 +71,7 @@ void ZeliBot::list_events(std::vector<std::string> &) {
   }
   auto events = db_manager.get_events();
 
-  for (auto event : events) {
+  for (const auto &event : events) {
     bot.getApi().sendMessage(allowed_user, "[" + event.id + "] " + event.value +
                                                " | " + "Fecha: " + event.date);
   }
