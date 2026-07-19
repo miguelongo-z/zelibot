@@ -10,6 +10,9 @@
 ZeliBot::ZeliBot(const std::string &token, const uint64_t chat_id)
     : bot(token), long_poll(bot), db_manager(DB_NAME), allowed_user(chat_id) {
   initCommands();
+  bot.getApi().deleteWebhook();
+  std::cout << "[ZeliBOT] Bot username: " << bot.getApi().getMe()->username
+            << std::endl;
 }
 
 void ZeliBot::initCommands() {
@@ -69,12 +72,19 @@ void ZeliBot::list_events(std::vector<std::string> &) {
 
   for (auto event : events) {
     bot.getApi().sendMessage(allowed_user, "[" + event.id + "] " + event.value +
-                                               " " + "Fecha: " + event.date);
+                                               " | " + "Fecha: " + event.date);
   }
 }
 
 void ZeliBot::add_event(std::vector<std::string> &args) {
 
+  if (args.empty() || args.size() < 2) {
+    bot.getApi().sendMessage(allowed_user,
+                             "Cantidad de argumentos incorrecto. uso /evento "
+                             "add <fecha> <contenido>");
+
+    return;
+  }
   std::string date = args.front();
   args.erase(args.begin());
 
@@ -89,14 +99,12 @@ void ZeliBot::add_event(std::vector<std::string> &args) {
 
 void ZeliBot::run() {
   try {
-    printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());
-    bot.getApi().deleteWebhook();
-
-    while (true) {
+    while (keep_running) {
       long_poll.start();
     }
   } catch (std::exception &e) {
-    printf("error: %s\n", e.what());
+    std::cout << "[ERROR] " << e.what() << std::endl;
+    keep_running = false;
   }
 }
 

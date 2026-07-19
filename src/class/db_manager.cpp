@@ -22,12 +22,6 @@ void DBManager::init() {
             "id INTEGER PRIMARY KEY, "
             "event_name TEXT, event_date TEXT)");
 
-    SQLite::Statement query(db, "SELECT * FROM events");
-    while (query.executeStep()) {
-      std::cout << "row (" << query.getColumn(0) << ", \"" << query.getColumn(1)
-                << ", \"" << query.getColumn(2) << "\")\n";
-    }
-
   } catch (std::exception &e) {
     std::cout << "[SQLite] " << e.what() << std::endl;
     return;
@@ -58,7 +52,7 @@ std::vector<Event> DBManager::get_events() {
 void DBManager::create_event(const std::string &value,
                              const std::string &date) {
 
-  std::cout << "[DBManager] event saved" << std::endl;
+  std::cout << "[DBManager] Event saved" << std::endl;
 
   db.exec("INSERT INTO events VALUES (NULL, \"" + value + "\",\" " + date +
           "\" )");

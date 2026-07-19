@@ -14,8 +14,8 @@ private:
   DBManager db_manager;
   const std::vector<std::string> bot_commands = {"start", "test", "events"};
   bool test_text_state = false;
+  bool keep_running = true;
   const uint64_t allowed_user;
-  bool is_allowed_user(const uint64_t chat_id) const;
 
   std::unordered_map<std::string,
                      std::function<void(std::vector<std::string> &args)>>
@@ -27,6 +27,7 @@ private:
   void list_events(std::vector<std::string> &args);
   void add_event(std::vector<std::string> &args);
   void initCommands();
+  bool is_allowed_user(const uint64_t chat_id) const;
 
 public:
   ZeliBot(const std::string &token, const uint64_t chat_id);
