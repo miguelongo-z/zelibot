@@ -33,7 +33,7 @@ void DBManager::init() {
     return;
   }
   std::cout << "[SQLite] OK " << std::endl;
-};
+}
 
 bool DBManager::has_pending_events() const {
   SQLite::Statement query(db, "SELECT * FROM events");
