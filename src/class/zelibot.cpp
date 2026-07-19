@@ -112,7 +112,7 @@ void ZeliBot::add_event(const std::vector<std::string> &args) {
   if (args.size() < 2) {
     bot.getApi().sendMessage(
         allowed_user, "Cantidad de argumentos incorrecto. uso /event add "
-                      "<fecha> <contenido>");
+                      "<fecha> <hora> <contenido>");
     return;
   }
 
