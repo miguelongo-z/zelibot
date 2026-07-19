@@ -6,9 +6,10 @@
 DBManager::DBManager(const std::string &db_name)
     : db(db_name, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE), name(db_name) {
 
-  std::cout << "[SQLite] SQLite3 version " << SQLite::VERSION << " ("
+  std::cout << "[DBManager] SQLite3 version " << SQLite::VERSION << " ("
             << SQLite::getLibVersion() << ")" << std::endl;
-  std::cout << "[SQLite] SQLiteC++ version " << SQLITECPP_VERSION << std::endl;
+  std::cout << "[DBManager] SQLiteC++ version " << SQLITECPP_VERSION
+            << std::endl;
   init();
 }
 
@@ -16,17 +17,17 @@ void DBManager::init() {
 
   try {
 
-    std::cout << "[SQLite] SQLite database file" << " opened successfully\n";
+    std::cout << "[DBManager] SQLite database file" << " opened successfully\n";
 
     db.exec("CREATE TABLE IF NOT EXISTS events ("
             "id INTEGER PRIMARY KEY, "
             "event_name TEXT, event_date TEXT)");
 
   } catch (std::exception &e) {
-    std::cout << "[SQLite] " << e.what() << std::endl;
+    std::cout << "[DBManager] " << e.what() << std::endl;
     return;
   }
-  std::cout << "[SQLite] OK " << std::endl;
+  std::cout << "[DBManager] OK " << std::endl;
 }
 
 bool DBManager::has_pending_events() const {
