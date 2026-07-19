@@ -6,10 +6,12 @@
 #include <numeric>
 #include <string>
 #include <vector>
+
 ZeliBot::ZeliBot(const std::string &token, const uint64_t chat_id)
     : bot(token), long_poll(bot), db_manager(DB_NAME), allowed_user(chat_id) {
   initCommands();
-};
+}
+
 void ZeliBot::initCommands() {
 
   bot.getEvents().onCommand("test", [this](TgBot::Message::Ptr message) {
