@@ -1,0 +1,34 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v4
+
+      - name: install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            build-essential \
+            cmake \
+            libboost-all-dev \
+            libssl-dev \
+            zlib1g-dev \
+            libcurl4-openssl-dev
+
+      - name: cmake
+        run: |
+          make all
+          
+      - name: verify
+        run: |
+          ls -la build/
