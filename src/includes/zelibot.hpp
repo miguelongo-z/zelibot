@@ -5,17 +5,22 @@
 #include <functional>
 #include <string>
 #include <tgbot/tgbot.h>
+#include <thread>
 #include <unordered_map>
 #include <vector>
 class ZeliBot {
 private:
   TgBot::Bot bot;
+  TgBot::Bot notifier_bot;
   TgBot::TgLongPoll long_poll;
   DBManager db_manager;
-  const std::vector<std::string> bot_commands = {"start", "test", "event"};
   bool test_text_state = false;
-  bool keep_running = true;
+  std::atomic<bool> keep_running{true};
   const uint64_t allowed_user;
+
+  std::jthread notification_thread;
+
+  const std::vector<std::string> bot_commands = {"start", "test", "event"};
 
   std::unordered_map<std::string,
                      std::function<void(std::vector<std::string> &args)>>
@@ -30,6 +35,16 @@ private:
   void add_event(const std::vector<std::string> &args);
   void initCommands();
   bool is_allowed_user(const uint64_t chat_id) const;
+  void send_message(const std::string &message);
+  void send_message(int64_t chat_id, const std::string &message);
+  static bool is_valid_format_date(const std::string &date,
+                                   const std::string &hour);
+  static bool check_date(const std::string &date);
+  static bool check_hour(const std::string &hour);
+
+  void notify_pending_events();
+
+  void notification_loop();
 
 public:
   ZeliBot(const std::string &token, const uint64_t chat_id);

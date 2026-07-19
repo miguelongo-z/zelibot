@@ -33,12 +33,17 @@ void DBManager::init() {
   std::cout << "[DBManager] OK " << std::endl;
 }
 
-bool DBManager::has_pending_events() const {
-  SQLite::Statement query(db, "SELECT * FROM events");
-  return query.executeStep();
+bool DBManager::has_events() const {
+  std::lock_guard lock(mutex);
+  SQLite::Statement query(db, "SELECT EXISTS(SELECT 1 FROM events);");
+
+  query.executeStep();
+
+  return query.getColumn(0).getInt() == 1;
 }
 
 std::vector<Event> DBManager::get_events() {
+  std::lock_guard lock(mutex);
   std::vector<Event> events;
   SQLite::Statement query(db, "SELECT * FROM events");
   while (query.executeStep()) {
@@ -55,21 +60,46 @@ std::vector<Event> DBManager::get_events() {
 
 void DBManager::create_event(const std::string &value,
                              const std::string &date) {
-  db.exec("INSERT INTO events VALUES (NULL, \"" + value + "\",\" " + date +
-          "\" )");
+  std::lock_guard lock(mutex);
+  SQLite::Statement query(db, "INSERT INTO events VALUES(NULL, ?, ?)");
+
+  query.bind(1, value);
+  query.bind(2, date);
+
+  query.exec();
 
   std::cout << "[DBManager] Event saved" << std::endl;
 }
 
 bool DBManager::delete_event(const int id) {
-  int ret = -1;
-  try {
-    ret = db.exec("DELETE FROM events WHERE id = " + std::to_string(id) + ";");
-  } catch (std::exception &e) {
-    std::cout << "[DBManager] " << e.what() << std::endl;
-    return ret;
-  }
+  std::lock_guard lock(mutex);
+  int row = 0;
+  SQLite::Statement query(db, "DELETE FROM events WHERE id = ?");
+  query.bind(1, id);
+  row = query.exec();
 
-  std::cout << "[DBManager] Event deleted" << std::endl;
-  return ret;
+  if (row > 0)
+    std::cout << "[DBManager] Event deleted" << std::endl;
+  return row > 0;
+}
+
+std::vector<Event> DBManager::pop_pending_events() {
+  std::lock_guard lock(mutex);
+
+  std::vector<Event> events;
+  SQLite::Statement query(db, "SELECT * FROM events WHERE datetime(event_date "
+                              "|| ':00') <= datetime('now','localtime');");
+  while (query.executeStep()) {
+    Event event;
+
+    event.id = query.getColumn(0).getString();
+    event.value = query.getColumn(1).getString();
+    event.date = query.getColumn(2).getString();
+
+    events.push_back(event);
+  }
+  db.exec("DELETE FROM events WHERE datetime(event_date || ':00') <= "
+          "datetime('now','localtime');");
+
+  return events;
 }
