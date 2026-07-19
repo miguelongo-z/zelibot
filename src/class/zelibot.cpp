@@ -3,18 +3,17 @@
 #include "tgbot/tgbot.h"
 #include <cstdint>
 #include <exception>
+#include <numeric>
 #include <string>
-
-ZeliBot::ZeliBot(const std::string &token, const uint64_t allowed_user)
-    : bot(token), long_poll(bot), db_manager(DB_NAME),
-      allowed_user(allowed_user) {
+#include <vector>
+ZeliBot::ZeliBot(const std::string &token, const uint64_t chat_id)
+    : bot(token), long_poll(bot), db_manager(DB_NAME), allowed_user(chat_id) {
   initCommands();
 };
-
 void ZeliBot::initCommands() {
 
   bot.getEvents().onCommand("test", [this](TgBot::Message::Ptr message) {
-    if (!is_allowed_user(message->chat->id)) {
+    if (!is_allowed_user(static_cast<uint64_t>(message->chat->id))) {
       bot.getApi().sendMessage(message->chat->id,
                                "[ERROR] You are not allowed for use this bot.");
       return;
@@ -24,7 +23,7 @@ void ZeliBot::initCommands() {
   });
 
   bot.getEvents().onAnyMessage([&](TgBot::Message::Ptr message) {
-    if (!is_allowed_user(message->chat->id)) {
+    if (!is_allowed_user(static_cast<uint64_t>(message->chat->id))) {
       bot.getApi().sendMessage(message->chat->id,
                                "[ERROR] You are not allowed for use this bot.");
       return;
@@ -38,23 +37,27 @@ void ZeliBot::initCommands() {
     for (const auto &command : bot_commands) {
       std::stringstream ss(message->text);
       std::string input_command;
+      std::vector<std::string> args;
       ss >> input_command;
       if ("/" + command == input_command) {
         std::string arg;
         ss >> arg;
         auto it = command_events_handlers.find(arg);
         if (it != command_events_handlers.end()) {
-          it->second();
+          while (ss >> arg) {
+            args.push_back(arg);
+          }
+          it->second(args);
           return;
         }
       }
     }
 
-    bot.getApi().sendMessage(message->chat->id, "[ERROR] unknown command");
+    bot.getApi().sendMessage(message->chat->id, "[ERROR] Unknown Command");
   });
 }
 
-void ZeliBot::list_events() {
+void ZeliBot::list_events(std::vector<std::string> &) {
 
   if (!db_manager.has_pending_events()) {
     bot.getApi().sendMessage(allowed_user, "No hay eventos programados :(");
@@ -64,13 +67,21 @@ void ZeliBot::list_events() {
 
   for (auto event : events) {
     bot.getApi().sendMessage(allowed_user, "[" + event.id + "] " + event.value +
-                                               "Fecha: " + event.date);
+                                               " " + "Fecha: " + event.date);
   }
 }
 
-void ZeliBot::add_event() {
+void ZeliBot::add_event(std::vector<std::string> &args) {
 
-  db_manager.create_event("Hello from Telegram!", "18-07-2026");
+  std::string date = args.front();
+  args.erase(args.begin());
+
+  std::string content =
+      std::accumulate(args.begin(), args.end(), std::string(),
+                      [](const std::string &a, const std::string &b) {
+                        return a.empty() ? b : a + " " + b;
+                      });
+  db_manager.create_event(content, date);
   bot.getApi().sendMessage(allowed_user, "Evento agregado :)");
 }
 

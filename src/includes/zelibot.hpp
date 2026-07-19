@@ -17,16 +17,19 @@ private:
   const uint64_t allowed_user;
   bool is_allowed_user(const uint64_t chat_id) const;
 
-  std::unordered_map<std::string, std::function<void()>>
-      command_events_handlers = {{"list", [this]() { list_events(); }},
-                                 {"add", [this]() { add_event(); }}};
+  std::unordered_map<std::string,
+                     std::function<void(std::vector<std::string> &args)>>
+      command_events_handlers = {
+          {"list",
+           [this](std::vector<std::string> &args) { list_events(args); }},
+          {"add", [this](std::vector<std::string> &args) { add_event(args); }}};
 
-  void list_events();
-  void add_event();
+  void list_events(std::vector<std::string> &args);
+  void add_event(std::vector<std::string> &args);
   void initCommands();
 
 public:
-  ZeliBot(const std::string &token, const uint64_t allowed_user);
+  ZeliBot(const std::string &token, const uint64_t chat_id);
 
   void run();
 

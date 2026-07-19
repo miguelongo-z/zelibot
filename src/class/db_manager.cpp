@@ -3,8 +3,8 @@
 #include <ostream>
 #include <vector>
 
-DBManager::DBManager(const std::string &name)
-    : db(name, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE), name(name) {
+DBManager::DBManager(const std::string &db_name)
+    : db(db_name, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE), name(db_name) {
 
   std::cout << "[SQLite] SQLite3 version " << SQLite::VERSION << " ("
             << SQLite::getLibVersion() << ")" << std::endl;

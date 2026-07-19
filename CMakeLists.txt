@@ -31,12 +31,35 @@ find_package(Boost COMPONENTS system REQUIRED)
 find_package(CURL REQUIRED)
 
 
+
+
 add_executable(zelibot
     src/main.cpp
     src/class/zelibot.cpp
     src/class/db_manager.cpp
 )
 
+target_compile_options(zelibot PRIVATE
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Werror
+    -Wconversion
+    -Wsign-conversion
+    -Wshadow
+    -Wcast-qual
+    -Wold-style-cast
+    -Wnon-virtual-dtor
+    -Woverloaded-virtual
+    -Wnull-dereference
+    -Wdouble-promotion
+    -Wformat=2
+)
+
+# Para que no marque los warns de la libreria tgbot-cpp
+target_include_directories(zelibot SYSTEM PRIVATE
+    ${tgbot-cpp_SOURCE_DIR}/include
+)
 
 target_link_libraries(zelibot
     TgBot
