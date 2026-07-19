@@ -15,14 +15,14 @@ A Telegram bot assistant that sends notifications and helps you remember importa
 
 ## Platform Support
 
-| Platform   | Status                                                             |
-| ---------- | ------------------------------------------------------------------ |
-| Debian     | ![Supported](https://img.shields.io/badge/Supported-brightgreen)   |
-| Ubuntu     | ![Supported](https://img.shields.io/badge/Supported-brightgreen)   |
-| Arch Linux | ![Not Supported](https://img.shields.io/badge/Not%20Supported-red) |
-| Fedora     | ![Not Supported](https://img.shields.io/badge/Not%20Supported-red) |
-| Windows    | ![Not Supported](https://img.shields.io/badge/Not%20Supported-red) |
-| macOS      | ![Not Supported](https://img.shields.io/badge/Not%20Supported-red) |
+| Platform                                                             |
+| -------------------------------------------------------------------- |
+| ![Debian](https://img.shields.io/badge/Debian-Supported-brightgreen) |
+| ![Ubuntu](https://img.shields.io/badge/Ubuntu-Supported-brightgreen) |
+| ![Arch](https://img.shields.io/badge/Arch_Linux-Unsupported-orange)  |
+| ![Fedora](https://img.shields.io/badge/Fedora-Unsupported-orange)    |
+| ![Windows](https://img.shields.io/badge/Windows-Unsupported-orange)  |
+| ![macOS](https://img.shields.io/badge/macOS-unSupported-orange)      |
 
 ## Installation |
 
