@@ -13,11 +13,17 @@ include(FetchContent)
 FetchContent_Declare(
     tgbot-cpp
     GIT_REPOSITORY https://github.com/reo7sp/tgbot-cpp.git
-    GIT_TAG master
+    GIT_TAG v1.10
 )
 
 FetchContent_MakeAvailable(tgbot-cpp)
 
+FetchContent_Declare(
+  sqlitecpp
+    GIT_REPOSITORY https://github.com/srombauts/sqlitecpp.git
+    GIT_TAG 3.3.3
+)
+FetchContent_MakeAvailable(sqlitecpp)
 
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -25,14 +31,39 @@ find_package(Boost COMPONENTS system REQUIRED)
 find_package(CURL REQUIRED)
 
 
+
+
 add_executable(zelibot
     src/main.cpp
     src/class/zelibot.cpp
+    src/class/db_manager.cpp
 )
 
+target_compile_options(zelibot PRIVATE
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Werror
+    -Wconversion
+    -Wsign-conversion
+    -Wshadow
+    -Wcast-qual
+    -Wold-style-cast
+    -Wnon-virtual-dtor
+    -Woverloaded-virtual
+    -Wnull-dereference
+    -Wdouble-promotion
+    -Wformat=2
+)
+
+# Para que no marque los warns de la libreria tgbot-cpp
+target_include_directories(zelibot SYSTEM PRIVATE
+    ${tgbot-cpp_SOURCE_DIR}/include
+)
 
 target_link_libraries(zelibot
     TgBot
+    SQLiteCpp
     Threads::Threads
     OpenSSL::SSL
     OpenSSL::Crypto
