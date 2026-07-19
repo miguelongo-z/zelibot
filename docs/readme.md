@@ -24,7 +24,7 @@ A Telegram bot assistant that sends notifications and helps you remember importa
 | ![Windows](https://img.shields.io/badge/Windows-Unsupported-orange)  |
 | ![macOS](https://img.shields.io/badge/macOS-unSupported-orange)      |
 
-## Installation |
+## Installation
 
 ...
 
