@@ -12,7 +12,7 @@ private:
   TgBot::Bot bot;
   TgBot::TgLongPoll long_poll;
   DBManager db_manager;
-  const std::vector<std::string> bot_commands = {"start", "test", "events"};
+  const std::vector<std::string> bot_commands = {"start", "test", "event"};
   bool test_text_state = false;
   bool keep_running = true;
   const uint64_t allowed_user;
@@ -21,11 +21,13 @@ private:
                      std::function<void(std::vector<std::string> &args)>>
       command_events_handlers = {
           {"list",
-           [this](std::vector<std::string> &args) { list_events(args); }},
-          {"add", [this](std::vector<std::string> &args) { add_event(args); }}};
+           [this](std::vector<std::string> &args) { list_event(args); }},
+          {"add", [this](std::vector<std::string> &args) { add_event(args); }},
+          {"del", [this](std::vector<std::string> &args) { del_event(args); }}};
 
-  void list_events(std::vector<std::string> &args);
-  void add_event(std::vector<std::string> &args);
+  void del_event(const std::vector<std::string> &args);
+  void list_event(const std::vector<std::string> &args);
+  void add_event(const std::vector<std::string> &args);
   void initCommands();
   bool is_allowed_user(const uint64_t chat_id) const;
 

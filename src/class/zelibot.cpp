@@ -1,6 +1,7 @@
 #include "../includes/zelibot.hpp"
 #include "../includes/defs.hpp"
-#include "tgbot/tgbot.h"
+#include <algorithm>
+#include <cctype>
 #include <cstdint>
 #include <exception>
 #include <numeric>
@@ -63,7 +64,7 @@ void ZeliBot::initCommands() {
   });
 }
 
-void ZeliBot::list_events(std::vector<std::string> &) {
+void ZeliBot::list_event(const std::vector<std::string> &) {
 
   if (!db_manager.has_pending_events()) {
     bot.getApi().sendMessage(allowed_user, "No hay eventos programados :(");
@@ -77,23 +78,52 @@ void ZeliBot::list_events(std::vector<std::string> &) {
   }
 }
 
-void ZeliBot::add_event(std::vector<std::string> &args) {
-
-  if (args.empty() || args.size() < 2) {
+void ZeliBot::del_event(const std::vector<std::string> &args) {
+  if (args.empty()) {
     bot.getApi().sendMessage(allowed_user,
-                             "Cantidad de argumentos incorrecto. uso /evento "
-                             "add <fecha> <contenido>");
-
+                             "Cantidad de argumentos incorrecto. uso /event "
+                             "del <eventoID>");
     return;
   }
-  std::string date = args.front();
-  args.erase(args.begin());
+  std::string number_str = args.front();
+
+  bool is_a_number =
+      std::all_of(number_str.begin(), number_str.end(),
+                  [](unsigned char c) { return std::isdigit(c); });
+
+  if (!is_a_number) {
+    bot.getApi().sendMessage(allowed_user, "ID inválido.");
+    return;
+  }
+
+  bool success = db_manager.delete_event(std::stoi(number_str));
+
+  if (success) {
+    bot.getApi().sendMessage(allowed_user, "Evento eliminado :)");
+  } else {
+    bot.getApi().sendMessage(
+        allowed_user,
+        "Error al borrar el evento. ID no existe o error interno");
+  }
+}
+
+void ZeliBot::add_event(const std::vector<std::string> &args) {
+
+  if (args.size() < 2) {
+    bot.getApi().sendMessage(
+        allowed_user, "Cantidad de argumentos incorrecto. uso /event add "
+                      "<fecha> <contenido>");
+    return;
+  }
+
+  std::string date = args[0];
 
   std::string content =
-      std::accumulate(args.begin(), args.end(), std::string(),
+      std::accumulate(args.begin() + 1, args.end(), std::string(),
                       [](const std::string &a, const std::string &b) {
                         return a.empty() ? b : a + " " + b;
                       });
+
   db_manager.create_event(content, date);
   bot.getApi().sendMessage(allowed_user, "Evento agregado :)");
 }

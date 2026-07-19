@@ -2,3 +2,4 @@ build/
 .env
 .envrc
 *.db3
+*.sh

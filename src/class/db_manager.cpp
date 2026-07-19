@@ -1,6 +1,8 @@
 #include "../includes/db_manager.hpp"
+#include <exception>
 #include <iostream>
 #include <ostream>
+#include <string>
 #include <vector>
 
 DBManager::DBManager(const std::string &db_name)
@@ -53,9 +55,21 @@ std::vector<Event> DBManager::get_events() {
 
 void DBManager::create_event(const std::string &value,
                              const std::string &date) {
-
-  std::cout << "[DBManager] Event saved" << std::endl;
-
   db.exec("INSERT INTO events VALUES (NULL, \"" + value + "\",\" " + date +
           "\" )");
+
+  std::cout << "[DBManager] Event saved" << std::endl;
+}
+
+bool DBManager::delete_event(const int id) {
+  int ret = -1;
+  try {
+    ret = db.exec("DELETE FROM events WHERE id = " + std::to_string(id) + ";");
+  } catch (std::exception &e) {
+    std::cout << "[DBManager] " << e.what() << std::endl;
+    return ret;
+  }
+
+  std::cout << "[DBManager] Event deleted" << std::endl;
+  return ret;
 }
