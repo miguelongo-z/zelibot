@@ -1,5 +1,5 @@
-#ifndef ZELIBOT_HPP
-#define ZELIBOT_HPP
+#ifndef SRC_INCLUDES_ZELIBOT_HPP_
+#define SRC_INCLUDES_ZELIBOT_HPP_
 #include "db_manager.hpp"
 #include <cstdint>
 #include <functional>
@@ -37,4 +37,4 @@ public:
   ~ZeliBot() = default;
 };
 
-#endif // !ZELIBOT_HPP
+#endif // !SRC_INCLUDES_ZELIBOT_HPP_
