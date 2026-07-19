@@ -4,4 +4,22 @@
 ![Version](https://img.shields.io/badge/C%2B%2B-20-blue)
 ![Linux](https://img.shields.io/badge/Linux-Supported-brightgreen)
 
-[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]
+![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)
+
+A Telegram bot assistant that sends notifications and helps you remember important events and tasks.
+
+### Features
+
+...
+
+### Installation
+
+...
+
+### Documentation
+
+...
+
+### Usage
+
+...
