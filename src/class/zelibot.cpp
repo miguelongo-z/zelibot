@@ -225,7 +225,7 @@ bool ZeliBot::is_allowed_user(const uint64_t chat_id) const {
 }
 
 void ZeliBot::notify_pending_events() {
-  auto events = db_manager.pop_pending_events();
+  auto events = db_manager.get_pending_events();
   if (events.empty())
     return;
 

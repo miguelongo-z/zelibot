@@ -83,7 +83,7 @@ bool DBManager::delete_event(const int id) {
   return row > 0;
 }
 
-std::vector<Event> DBManager::pop_pending_events() {
+std::vector<Event> DBManager::get_pending_events() {
   std::lock_guard lock(mutex);
 
   std::vector<Event> events;

@@ -22,7 +22,7 @@ public:
   void create_event(const std::string &value, const std::string &date);
   bool delete_event(const int id);
   bool has_events() const;
-  std::vector<Event> pop_pending_events();
+  std::vector<Event> get_pending_events();
   ~DBManager() = default;
 };
 #endif // SRC_INCLUDES_DB_MANAGER_HPP_
