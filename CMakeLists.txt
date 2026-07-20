@@ -6,8 +6,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_compile_options(-Wall)
-
 include(FetchContent)
 
 FetchContent_Declare(
@@ -29,8 +27,6 @@ find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Boost COMPONENTS system REQUIRED)
 find_package(CURL REQUIRED)
-
-
 
 
 add_executable(zelibot
@@ -60,6 +56,9 @@ target_compile_options(zelibot PRIVATE
 target_include_directories(zelibot SYSTEM PRIVATE
     ${tgbot-cpp_SOURCE_DIR}/include
 )
+
+# Oculta el warn de bind.h
+target_compile_definitions(zelibot PRIVATE BOOST_BIND_GLOBAL_PLACEHOLDERS)
 
 target_link_libraries(zelibot
     TgBot
