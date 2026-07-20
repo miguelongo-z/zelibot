@@ -1,12 +1,17 @@
 # ZeliBOT
 
+<div align="center">
+
 [![Build](https://img.shields.io/github/actions/workflow/status/miguelongo-z/zelibot/build.yml?branch=main&style=for-the-badge)](https://github.com/miguelongo-z/zelibot/actions/workflows/build.yml)
+[![Code Size](https://img.shields.io/github/languages/code-size/miguelongo-z/zelibot?style=for-the-badge)](https://github.com/miguelongo-z/zelibot)
+[![License](https://img.shields.io/github/license/miguelongo-z/zelibot?style=for-the-badge)](LICENSE)
+
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
 ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 
-![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
+</div>
 
 A Telegram bot assistant that sends notifications and helps you remember important events and tasks.
 
@@ -16,14 +21,14 @@ A Telegram bot assistant that sends notifications and helps you remember importa
 
 ## Platform Support
 
-| Platform                                                             |
-| -------------------------------------------------------------------- |
-| ![Debian](https://img.shields.io/badge/Debian-Supported-brightgreen) |
-| ![Ubuntu](https://img.shields.io/badge/Ubuntu-Supported-brightgreen) |
-| ![Arch](https://img.shields.io/badge/Arch_Linux-Unsupported-orange)  |
-| ![Fedora](https://img.shields.io/badge/Fedora-Unsupported-orange)    |
-| ![Windows](https://img.shields.io/badge/Windows-Unsupported-orange)  |
-| ![macOS](https://img.shields.io/badge/macOS-unSupported-orange)      |
+| Platform |
+|----------|
+| ![Debian](https://img.shields.io/badge/Debian-Supported-brightgreen?style=for-the-badge) |
+| ![Ubuntu](https://img.shields.io/badge/Ubuntu-Supported-brightgreen?style=for-the-badge) |
+| ![Arch](https://img.shields.io/badge/Arch-Unsupported-red?style=for-the-badge) |
+| ![Fedora](https://img.shields.io/badge/Fedora-Unsupported-red?style=for-the-badge) |
+| ![Windows](https://img.shields.io/badge/Windows-Unsupported-red?style=for-the-badge) |
+| ![macOS](https://img.shields.io/badge/macOS-Unsupported-red?style=for-the-badge) |
 
 ## Installation
 
