@@ -25,6 +25,37 @@ A Telegram bot assistant that sends notifications and helps you remember importa
 
 ## Installation
 
+### Dependecies
+
+The following dependencies are required to build and run the project:
+
+- `build-essential cmake libboost-all-dev libssl-dev zlib1g-dev libcurl4-openssl-dev g++ gcc git`
+
+### Setup 
+
+Clone the repository:
+
+```bash
+$ git clone https://github.com/miguelongo-z/zelibot && cd zelibot
+```
+
+### Build 
+
+Compile the project:
+
+```bash
+$  make all
+```
+
+### Docker Support
+
+Alternatively, you can use Docker for a quick and easy setup.
+
+
+```bash
+$ docker compose up -d
+```
+
 ...
 
 ## Documentation
