@@ -1,5 +1,6 @@
 #include "../includes/config_manager.hpp"
 #include <cstdint>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -14,9 +15,16 @@ ConfigManager::ConfigManager(const std::string &config_path)
 }
 
 std::string ConfigManager::request_token() {
+  const char *token_env = std::getenv("TOKEN");
+  std::string bot_token;
+
+  if (token_env != nullptr) {
+    bot_token = token_env;
+    return bot_token;
+  }
+
   std::cout << "Enter BOT Token > ";
 
-  std::string bot_token;
   std::cin >> bot_token;
 
   return bot_token;

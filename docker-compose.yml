@@ -1,8 +1,9 @@
 services:
   zelibot:
     build: .
-   
+    stdin_open: true
     environment:
+      TOKEN: ${TOKEN}
       DB_PATH: /data/zelibot.db3   
     volumes:
       - /etc/localtime:/etc/localtime:ro
