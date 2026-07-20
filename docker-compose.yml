@@ -5,9 +5,9 @@ services:
     environment:
       TOKEN: ${TOKEN}
       ALLOWED_USER: ${ALLOWED_USER}    
-   
+      DB_PATH: /data/zelibot.db3   
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - .:/app
+      - ./data:/data
 

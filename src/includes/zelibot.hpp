@@ -42,6 +42,8 @@ private:
   static bool check_date(const std::string &date);
   static bool check_hour(const std::string &hour);
 
+  static std::string get_db_path();
+
   void notify_pending_events();
 
   void notification_loop();

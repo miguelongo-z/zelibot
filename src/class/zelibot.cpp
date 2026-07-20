@@ -11,12 +11,22 @@
 #include <vector>
 
 ZeliBot::ZeliBot(const std::string &token, const uint64_t chat_id)
-    : bot(token), notifier_bot(token), long_poll(bot), db_manager(DB_NAME),
-      allowed_user(chat_id) {
+    : bot(token), notifier_bot(token), long_poll(bot),
+      db_manager(get_db_path()), allowed_user(chat_id) {
   initCommands();
   bot.getApi().deleteWebhook();
   std::cout << "[ZeliBOT] Bot username: " << bot.getApi().getMe()->username
             << std::endl;
+}
+
+std::string ZeliBot::get_db_path() {
+
+  const char *path = std::getenv("DB_PATH");
+
+  if (path == nullptr)
+    return DB_NAME;
+
+  return path;
 }
 
 void ZeliBot::initCommands() {

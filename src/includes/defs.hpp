@@ -1,1 +1,1 @@
-#define DB_NAME "zelibot_data.db3"
+#define DB_NAME "zelibot.db3"
