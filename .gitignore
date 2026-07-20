@@ -1,4 +1,5 @@
 build/
+data/
 .env
 .envrc
 *.db3
