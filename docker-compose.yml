@@ -1,6 +1,13 @@
 services:
   zelibot:
     build: .
+   
+    environment:
+      TOKEN: ${TOKEN}
+      ALLOWED_USER: ${ALLOWED_USER}    
+   
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+      - .:/app
+
