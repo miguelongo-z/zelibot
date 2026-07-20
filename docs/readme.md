@@ -53,7 +53,7 @@ Alternatively, you can use Docker for a quick and easy setup.
 
 
 ```bash
-$ docker compose up -d
+$ docker compose up
 ```
 
 ...
