@@ -9,14 +9,21 @@
 #include <string>
 #include <thread>
 #include <vector>
+ZeliBot::ZeliBot()
+    : config_manager(CONFIG_PATH), bot(config_manager.get_token()),
+      notifier_bot(config_manager.get_token()), long_poll(bot),
+      db_manager(get_db_path()) {
 
-ZeliBot::ZeliBot(const std::string &token, const uint64_t chat_id)
-    : bot(token), notifier_bot(token), long_poll(bot),
-      db_manager(get_db_path()), allowed_user(chat_id) {
-  initCommands();
-  bot.getApi().deleteWebhook();
   std::cout << "[ZeliBOT] Bot username: " << bot.getApi().getMe()->username
             << std::endl;
+
+  if (!config_manager.chat_id_is_setted()) {
+    std::cout << "[ZeliBOT] Chat id is not setted. Send /start to init"
+              << std::endl;
+  }
+  initCommands();
+
+  bot.getApi().deleteWebhook();
 }
 
 std::string ZeliBot::get_db_path() {
@@ -28,20 +35,25 @@ std::string ZeliBot::get_db_path() {
 
   return path;
 }
-
 void ZeliBot::initCommands() {
 
-  bot.getEvents().onCommand("test", [this](TgBot::Message::Ptr message) {
-    if (!is_allowed_user(static_cast<uint64_t>(message->chat->id))) {
-      send_message(message->chat->id,
-                   "[ERROR] You are not allowed for use this bot.");
+  bot.getEvents().onAnyMessage([&](TgBot::Message::Ptr message) {
+    if (!config_manager.chat_id_is_setted()) {
+      if ("/start" == message->text) {
+        config_manager.save_chat_id(static_cast<uint64_t>(message->chat->id));
+        send_message(message->chat->id,
+                     "El bot ha sido configurado con exito :)");
+
+        std::cout << "[ZeliBOT] Setup success" << std::endl;
+      } else {
+
+        send_message(
+            message->chat->id,
+            "El bot no ha sido configurado, escribe /start para empezar");
+      }
       return;
     }
-    send_message("Enter text");
-    test_text_state = true;
-  });
 
-  bot.getEvents().onAnyMessage([&](TgBot::Message::Ptr message) {
     if (!is_allowed_user(static_cast<uint64_t>(message->chat->id))) {
       send_message(message->chat->id,
                    "[ERROR] You are not allowed for use this bot.");
@@ -164,7 +176,7 @@ bool ZeliBot::is_valid_format_date(const std::string &date,
 }
 
 void ZeliBot::send_message(const std::string &message) {
-  bot.getApi().sendMessage(allowed_user, message);
+  bot.getApi().sendMessage(config_manager.get_chat_id(), message);
 }
 
 void ZeliBot::send_message(int64_t chat_id, const std::string &message) {
@@ -221,7 +233,7 @@ void ZeliBot::run() {
   }
 }
 bool ZeliBot::is_allowed_user(const uint64_t chat_id) const {
-  return chat_id == allowed_user;
+  return chat_id == config_manager.get_chat_id();
 }
 
 void ZeliBot::notify_pending_events() {
@@ -230,7 +242,7 @@ void ZeliBot::notify_pending_events() {
     return;
 
   for (const auto &event : events) {
-    notifier_bot.getApi().sendMessage(allowed_user,
+    notifier_bot.getApi().sendMessage(config_manager.get_chat_id(),
                                       "[NOTIFICACIÓN] " + event.value);
   }
 }
@@ -238,6 +250,9 @@ void ZeliBot::notify_pending_events() {
 void ZeliBot::notification_loop() {
 
   while (keep_running) {
+    if (!config_manager.chat_id_is_setted()) {
+      continue;
+    }
     std::cout << "[ZeliBOT] Checking for pending events..." << std::endl;
     notify_pending_events();
 

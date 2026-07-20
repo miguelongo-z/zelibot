@@ -1,5 +1,6 @@
 #ifndef SRC_INCLUDES_ZELIBOT_HPP_
 #define SRC_INCLUDES_ZELIBOT_HPP_
+#include "config_manager.hpp"
 #include "db_manager.hpp"
 #include <cstdint>
 #include <functional>
@@ -10,17 +11,17 @@
 #include <vector>
 class ZeliBot {
 private:
+  ConfigManager config_manager;
   TgBot::Bot bot;
   TgBot::Bot notifier_bot;
   TgBot::TgLongPoll long_poll;
   DBManager db_manager;
   bool test_text_state = false;
   std::atomic<bool> keep_running{true};
-  const uint64_t allowed_user;
 
   std::jthread notification_thread;
 
-  const std::vector<std::string> bot_commands = {"start", "test", "event"};
+  const std::vector<std::string> bot_commands = {"event"};
 
   std::unordered_map<std::string,
                      std::function<void(std::vector<std::string> &args)>>
@@ -49,7 +50,7 @@ private:
   void notification_loop();
 
 public:
-  ZeliBot(const std::string &token, const uint64_t chat_id);
+  ZeliBot();
 
   void run();
 
