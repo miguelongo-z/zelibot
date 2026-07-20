@@ -1,6 +1,6 @@
 # ZeliBOT
 
-[![Build](https://github.com/miguelongo-z/zelibot/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/miguelongo-z/zelibot/actions/workflows/build.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/miguelongo-z/zelibot/build.yml?branch=main&style=flat)](https://github.com/miguelongo-z/zelibot/actions/workflows/build.yml)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
