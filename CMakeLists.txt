@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(zelibot)
 
+set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS ON CACHE BOOL TRUE)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -15,6 +16,11 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(tgbot-cpp)
+
+# Json parser 
+
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
+FetchContent_MakeAvailable(json)
 
 FetchContent_Declare(
   sqlitecpp
@@ -60,12 +66,15 @@ target_include_directories(zelibot SYSTEM PRIVATE
 # Oculta el warn de bind.h
 target_compile_definitions(zelibot PRIVATE BOOST_BIND_GLOBAL_PLACEHOLDERS)
 
-target_link_libraries(zelibot
+
+target_link_libraries(zelibot PRIVATE
     TgBot
     SQLiteCpp
+    nlohmann_json::nlohmann_json
     Threads::Threads
     OpenSSL::SSL
     OpenSSL::Crypto
     Boost::system
     CURL::libcurl
+    nlohmann_json::nlohmann_json
 )
