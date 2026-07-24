@@ -4,6 +4,7 @@
 #include "db_manager.hpp"
 #include <cstdint>
 #include <functional>
+#include <mutex>
 #include <string>
 #include <tgbot/tgbot.h>
 #include <thread>
@@ -13,12 +14,11 @@ class ZeliBot {
 private:
   ConfigManager config_manager;
   TgBot::Bot bot;
-  TgBot::Bot notifier_bot;
   TgBot::TgLongPoll long_poll;
   DBManager db_manager;
   bool test_text_state = false;
   std::atomic<bool> keep_running{true};
-
+  mutable std::mutex bot_mtx;
   std::jthread notification_thread;
 
   const std::vector<std::string> bot_commands = {"event"};
