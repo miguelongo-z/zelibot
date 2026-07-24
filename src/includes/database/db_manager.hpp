@@ -7,17 +7,18 @@
 #include <mutex>
 #include <string>
 #include <vector>
+
 class DBManager {
 private:
   SQLite::Database db;
-  const std::string &name;
 
   mutable std::mutex mutex;
 
   void init();
+  static std::string get_db_path();
 
 public:
-  explicit DBManager(const std::string &db_name);
+  DBManager();
   std::vector<Event> get_events();
   void create_event(const std::string &value, const std::string &date);
   bool delete_event(const int id);

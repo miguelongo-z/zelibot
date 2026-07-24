@@ -1,12 +1,13 @@
 #include "database/db_manager.hpp"
+#include "defs.hpp"
 #include <exception>
 #include <iostream>
 #include <ostream>
 #include <string>
 #include <vector>
 
-DBManager::DBManager(const std::string &db_name)
-    : db(db_name, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE), name(db_name) {
+DBManager::DBManager()
+    : db(get_db_path(), SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE) {
 
   std::cout << "[DBManager] SQLite3 version " << SQLite::VERSION << " ("
             << SQLite::getLibVersion() << ")" << std::endl;
@@ -102,4 +103,14 @@ std::vector<Event> DBManager::get_pending_events() {
           "datetime('now','localtime');");
 
   return events;
+}
+
+std::string DBManager::get_db_path() {
+
+  const char *path = std::getenv("DB_PATH");
+
+  if (path == nullptr)
+    return DB_NAME;
+
+  return path;
 }

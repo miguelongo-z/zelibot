@@ -58,7 +58,7 @@ void ConfigManager::init() {
   file << data.dump(4);
 }
 
-void ConfigManager::save_chat_id(uint64_t chat_id_) {
+void ConfigManager::save_chat_id(int64_t chat_id_) {
 
   std::ifstream input(path);
 
@@ -86,11 +86,11 @@ void ConfigManager::load() {
   input >> data;
 
   token = data["token"].get<std::string>();
-  chat_id = data["chat_id"].get<uint64_t>();
+  chat_id = data["chat_id"].get<int64_t>();
 }
 
 const std::string &ConfigManager::get_token() const { return token; }
 
 bool ConfigManager::chat_id_is_setted() const { return chat_id != 0; }
 
-uint64_t ConfigManager::get_chat_id() const { return chat_id; }
+int64_t ConfigManager::get_chat_id() const { return chat_id; }

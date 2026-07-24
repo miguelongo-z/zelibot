@@ -41,7 +41,10 @@ add_executable(zelibot
     src/class/database/db_manager.cpp
     src/class/config_manager.cpp  
     src/class/utils/date_validator.cpp
-)
+    src/class/services/event_service.cpp
+    src/class/command_handler.cpp
+    src/class/telegram_client.cpp
+  )
 
 target_compile_options(zelibot PRIVATE
     -Wall

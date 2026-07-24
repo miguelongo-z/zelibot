@@ -1,53 +1,14 @@
 #ifndef SRC_INCLUDES_ZELIBOT_HPP_
 #define SRC_INCLUDES_ZELIBOT_HPP_
-#include "config_manager.hpp"
-#include "database/db_manager.hpp"
-#include <cstdint>
-#include <functional>
-#include <mutex>
-#include <string>
+#include "telegram_client.hpp"
 #include <tgbot/tgbot.h>
-#include <thread>
-#include <unordered_map>
-#include <vector>
+
 class ZeliBot {
 private:
-  ConfigManager config_manager;
-  TgBot::Bot bot;
-  TgBot::TgLongPoll long_poll;
-  DBManager db_manager;
-  bool test_text_state = false;
-  std::atomic<bool> keep_running{true};
-  mutable std::mutex bot_mtx;
-  std::jthread notification_thread;
-
-  const std::vector<std::string> bot_commands = {"event"};
-
-  std::unordered_map<std::string,
-                     std::function<void(std::vector<std::string> &args)>>
-      command_events_handlers = {
-          {"list",
-           [this](std::vector<std::string> &args) { list_event(args); }},
-          {"add", [this](std::vector<std::string> &args) { add_event(args); }},
-          {"del", [this](std::vector<std::string> &args) { del_event(args); }}};
-
-  void del_event(const std::vector<std::string> &args);
-  void list_event(const std::vector<std::string> &args);
-  void add_event(const std::vector<std::string> &args);
-  void initCommands();
-  bool is_allowed_user(const uint64_t chat_id) const;
-  void send_message(const std::string &message);
-  void send_message(int64_t chat_id, const std::string &message);
-
-  static std::string get_db_path();
-
-  void notify_pending_events();
-
-  void notification_loop();
-
 public:
   ZeliBot();
 
+  TelegramClient client;
   void run();
 
   ~ZeliBot() = default;
