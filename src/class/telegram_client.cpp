@@ -114,3 +114,5 @@ void TelegramClient::notification_loop() {
     }
   }
 }
+
+TelegramClient::~TelegramClient() = default;
