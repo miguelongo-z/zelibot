@@ -1,7 +1,7 @@
 #ifndef SRC_INCLUDES_ZELIBOT_HPP_
 #define SRC_INCLUDES_ZELIBOT_HPP_
 #include "config_manager.hpp"
-#include "db_manager.hpp"
+#include "database/db_manager.hpp"
 #include <cstdint>
 #include <functional>
 #include <mutex>
@@ -38,10 +38,6 @@ private:
   bool is_allowed_user(const uint64_t chat_id) const;
   void send_message(const std::string &message);
   void send_message(int64_t chat_id, const std::string &message);
-  static bool is_valid_format_date(const std::string &date,
-                                   const std::string &hour);
-  static bool check_date(const std::string &date);
-  static bool check_hour(const std::string &hour);
 
   static std::string get_db_path();
 

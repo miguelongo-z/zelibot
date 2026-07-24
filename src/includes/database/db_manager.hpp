@@ -1,6 +1,6 @@
 
-#ifndef SRC_INCLUDES_DB_MANAGER_HPP_
-#define SRC_INCLUDES_DB_MANAGER_HPP_
+#ifndef SRC_INCLUDES_DATABASE_DB_MANAGER_HPP_
+#define SRC_INCLUDES_DATABASE_DB_MANAGER_HPP_
 
 #include "types.hpp"
 #include <SQLiteCpp/SQLiteCpp.h>
@@ -25,4 +25,4 @@ public:
   std::vector<Event> get_pending_events();
   ~DBManager() = default;
 };
-#endif // SRC_INCLUDES_DB_MANAGER_HPP_
+#endif // SRC_INCLUDES_DATABASE_DB_MANAGER_HPP_

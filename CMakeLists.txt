@@ -38,8 +38,9 @@ find_package(CURL REQUIRED)
 add_executable(zelibot
     src/main.cpp
     src/class/zelibot.cpp
-    src/class/db_manager.cpp
+    src/class/database/db_manager.cpp
     src/class/config_manager.cpp  
+    src/class/utils/date_validator.cpp
 )
 
 target_compile_options(zelibot PRIVATE

@@ -1,5 +1,6 @@
 #include "zelibot.hpp"
 #include "defs.hpp"
+#include "utils/date_validator.hpp"
 #include <algorithm>
 #include <cctype>
 #include <chrono>
@@ -128,52 +129,6 @@ void ZeliBot::del_event(const std::vector<std::string> &args) {
   }
 }
 
-bool ZeliBot::check_hour(const std::string &hour) {
-
-  int h, m;
-  char sep;
-
-  std::stringstream ss(hour);
-
-  if (!(ss >> h >> sep >> m))
-    return false;
-
-  if (sep != ':')
-    return false;
-
-  return h >= 0 && h <= 23 && m >= 0 && m <= 59;
-}
-
-bool ZeliBot::check_date(const std::string &date) {
-  int year, month, day;
-  char sep1, sep2;
-
-  std::stringstream ss(date);
-
-  if (!(ss >> year >> sep1 >> month >> sep2 >> day))
-    return false;
-
-  if (sep1 != '-' || sep2 != '-')
-    return false;
-
-  std::chrono::year_month_day ymd{
-      std::chrono::year{year}, std::chrono::month{static_cast<unsigned>(month)},
-      std::chrono::day{static_cast<unsigned>(day)}};
-
-  return ymd.ok();
-}
-
-bool ZeliBot::is_valid_format_date(const std::string &date,
-                                   const std::string &hour) {
-
-  std::regex date_regex(R"(^\d{4}-\d{2}-\d{2}$)");
-  std::regex hour_regex(R"(^\d{2}:\d{2}$)");
-
-  return std::regex_match(date, date_regex) &&
-         std::regex_match(hour, hour_regex) && check_date(date) &&
-         check_hour(hour);
-}
-
 void ZeliBot::send_message(const std::string &message) {
   std::lock_guard<std::mutex> guard(bot_mtx);
   bot.getApi().sendMessage(config_manager.get_chat_id(), message);
@@ -197,7 +152,7 @@ void ZeliBot::add_event(const std::vector<std::string> &args) {
 
   std::string hour = args[1];
 
-  if (!is_valid_format_date(date, hour)) {
+  if (DateValidator::is_valid(date, hour)) {
     send_message("No es una fecha válida, revisa que cumpla este formato "
                  "<año-mes-día> <hora:minutos>");
     return;
