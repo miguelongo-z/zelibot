@@ -60,13 +60,16 @@ target_compile_options(zelibot PRIVATE
 )
 
 # Para que no marque los warns de la libreria tgbot-cpp
-target_include_directories(zelibot SYSTEM PRIVATE
+target_include_directories(zelibot
+    SYSTEM PRIVATE
     ${tgbot-cpp_SOURCE_DIR}/include
+)
+target_include_directories(zelibot PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/includes
 )
 
 # Oculta el warn de bind.h
 target_compile_definitions(zelibot PRIVATE BOOST_BIND_GLOBAL_PLACEHOLDERS)
-
 
 target_link_libraries(zelibot PRIVATE
     TgBot

@@ -1,4 +1,4 @@
-#include "../includes/db_manager.hpp"
+#include "db_manager.hpp"
 #include <exception>
 #include <iostream>
 #include <ostream>

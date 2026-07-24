@@ -1,5 +1,5 @@
-#include "../includes/zelibot.hpp"
-#include "../includes/defs.hpp"
+#include "zelibot.hpp"
+#include "defs.hpp"
 #include <algorithm>
 #include <cctype>
 #include <chrono>

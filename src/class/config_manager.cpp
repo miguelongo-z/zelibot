@@ -1,4 +1,4 @@
-#include "../includes/config_manager.hpp"
+#include "config_manager.hpp"
 #include <cstdint>
 #include <cstdlib>
 #include <fstream>
