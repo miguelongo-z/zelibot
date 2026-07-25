@@ -71,4 +71,6 @@ void EventService::add(const std::vector<std::string> &args) {
   }
 
   db.create_event(content, date + " " + hour);
+
+  client.send_message("Evento agregado correctamente :)");
 }
