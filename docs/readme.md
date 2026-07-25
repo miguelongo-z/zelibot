@@ -63,7 +63,7 @@ Alternatively, you can use Docker for a quick and easy setup.
 ```
 services:
   zelibot:
-    image: ghcr.io/miguelongo-z/zelibot:latest
+    image: ghcr.io/zeliusdev/zelibot:latest
     stdin_open: true
     environment:
       TOKEN: ${TOKEN}
