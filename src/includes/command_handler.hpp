@@ -31,8 +31,8 @@ private:
   std::unordered_map<std::string,
                      std::function<void(const std::string &action,
                                         std::vector<std::string> &args)>>
-      command_handler_map = {{"event", [this](const std::string &action,
-                                              std::vector<std::string> &args) {
+      command_handler_map = {{"/event", [this](const std::string &action,
+                                               std::vector<std::string> &args) {
                                 handleEvent(action, args);
                               }}};
 
