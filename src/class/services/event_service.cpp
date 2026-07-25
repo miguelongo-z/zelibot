@@ -36,8 +36,8 @@ void EventService::remove(const std::vector<std::string> &args) {
   auto success = db.delete_event(std::stoi(number_str));
   if (!success) {
     client.send_message("Evento no se pudo eliminar o no existe");
+    return;
   }
-
   client.send_message("Evento eliminado :)");
 }
 
@@ -53,7 +53,7 @@ void EventService::add(const std::vector<std::string> &args) {
 
   std::string hour = args[1];
 
-  if (DateValidator::is_valid(date, hour)) {
+  if (!DateValidator::is_valid(date, hour)) {
     client.send_message(
         "Formato de fecha incorrecto. Ejemplo 2026-07-24 04:30");
     return;

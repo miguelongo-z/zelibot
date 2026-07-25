@@ -4,6 +4,7 @@
 #include "database/db_manager.hpp"
 #include "imessage_sender.hpp"
 #include "services/event_service.hpp"
+#include <functional>
 #include <string>
 #include <tgbot/tgbot.h>
 #include <unordered_map>

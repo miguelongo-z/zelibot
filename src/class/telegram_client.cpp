@@ -5,6 +5,7 @@ TelegramClient::TelegramClient()
     : config_manager(CONFIG_PATH), bot(config_manager.get_token()),
       long_poll(bot), command_handler(*this, db_manager) {
 
+  init();
   std::cout << "[ZeliBOT] Bot username: " << bot.getApi().getMe()->username
             << std::endl;
 
@@ -40,7 +41,7 @@ void TelegramClient::init() {
       return;
     }
 
-    send_message(message->chat->id, "[ERROR] Comando desconocido");
+    command_handler.handle(message->text);
   });
 }
 
@@ -95,6 +96,7 @@ void TelegramClient::notification_loop() {
 
   while (keep_running) {
     if (!config_manager.chat_id_is_setted()) {
+      std::this_thread::sleep_for(std::chrono::seconds(2));
       continue;
     }
 

@@ -1,4 +1,6 @@
 #include "command_handler.hpp"
+#include <sstream>
+
 CommandHandler::CommandHandler(IMessageSender &_client, DBManager &db_manager)
     : client(_client), event_service(_client, db_manager) {}
 
@@ -22,7 +24,7 @@ void CommandHandler::handle(const std::string &msg_text) {
 
   auto it = command_handler_map.find(input_command);
 
-  if (it != command_handler_map.end()) {
+  if (it == command_handler_map.end()) {
     client.send_message("[ERROR] Comando inválido");
     return;
   }
