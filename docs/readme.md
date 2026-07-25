@@ -58,8 +58,26 @@ $  make all
 
 Alternatively, you can use Docker for a quick and easy setup.
 
+- Setup:
 
+```
+services:
+  zelibot:
+    image: ghcr.io/miguelongo-z/zelibot:latest
+    stdin_open: true
+    environment:
+      TOKEN: ${TOKEN}
+      DB_PATH: /data/zelibot.db3
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./data:/data
+      - ./config:/config
+```
+
+- Run:
 ```bash
+
 $ docker compose up
 ```
 
