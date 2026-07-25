@@ -36,7 +36,7 @@ A Telegram bot assistant that sends notifications and helps you remember importa
 
 The following dependencies are required to build and run the project:
 
-- `build-essential cmake libboost-all-dev libssl-dev zlib1g-dev libcurl4-openssl-dev g++ gcc git`
+- `build-essential cmake libboost-all-dev libssl-dev zlib1g-dev libcurl4-openssl-dev git`
 
 ### Setup 
 
