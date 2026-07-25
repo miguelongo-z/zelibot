@@ -72,7 +72,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - ./data:/data
-      - ./config:/config
+      - ./config:/app/config 
 ```
 
 - Run:
