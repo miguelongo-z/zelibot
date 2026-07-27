@@ -74,10 +74,8 @@ void TelegramClient::run() {
         std::this_thread::sleep_for(std::chrono::seconds(10));
         continue;
       }
-      keep_running = false;
     } catch (...) {
       std::cerr << "[ZeliBOT] FATAL: unknown exception" << std::endl;
-      keep_running = false;
     }
   }
 }
